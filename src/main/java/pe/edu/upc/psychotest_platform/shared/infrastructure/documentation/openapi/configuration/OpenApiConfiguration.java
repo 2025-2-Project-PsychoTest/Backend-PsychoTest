@@ -1,9 +1,12 @@
 package pe.edu.upc.psychotest_platform.shared.infrastructure.documentation.openapi.configuration;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,7 +37,7 @@ public class OpenApiConfiguration {
             .url("https://github.com/2025-2-Project-PsychoTest/Backend-PsychoTest"));
 
     // Add security scheme
-    /*final String securitySchemeName = "bearerAuth";
+    final String securitySchemeName = "bearerAuth";
     openApi.addSecurityItem(new SecurityRequirement()
             .addList(securitySchemeName))
         .components(new Components()
@@ -43,7 +46,7 @@ public class OpenApiConfiguration {
                     .name(securitySchemeName)
                     .type(SecurityScheme.Type.HTTP)
                     .scheme("bearer")
-                    .bearerFormat("JWT")));*/
+                    .bearerFormat("JWT")));
 
     // Return the OpenAPI configuration object with all the settings
     return openApi;

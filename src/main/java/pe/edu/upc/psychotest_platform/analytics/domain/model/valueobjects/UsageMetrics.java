@@ -1,27 +1,55 @@
 package pe.edu.upc.psychotest_platform.analytics.domain.model.valueobjects;
 
 import jakarta.persistence.Embeddable;
+import java.time.LocalDateTime;
 
+/**
+ * UsageMetrics Value Object.
+ * Represents the usage metrics of a user in the platform.
+ */
 @Embeddable
-public class UsageMetrics {
-    private int loginCount;
-    private long timeSpentMinutes;
+public record UsageMetrics(
+        int loginCount,
+        long timeSpentMinutes,
+        LocalDateTime lastLoginDate,
+        int actionsPerformed
+) {
 
-    public UsageMetrics() {}
-
-    public UsageMetrics(int loginCount, long timeSpentMinutes) {
+    public UsageMetrics {
         if (loginCount < 0) {
             throw new IllegalArgumentException("Login count cannot be negative");
         }
         if (timeSpentMinutes < 0) {
             throw new IllegalArgumentException("Time spent cannot be negative");
         }
-        this.loginCount = loginCount;
-        this.timeSpentMinutes = timeSpentMinutes;
+        if (actionsPerformed < 0) {
+            throw new IllegalArgumentException("Actions performed cannot be negative");
+        }
     }
 
-    public int getLoginCount() { return loginCount; }
+    /**
+     * Default constructor for empty usage metrics.
+     */
+    public UsageMetrics() {
+        this(0, 0L, null, 0);
+    }
 
-    public long getTimeSpentMinutes() { return timeSpentMinutes; }
+    /**
+     * Gets the average time spent per login.
+     * @return average time spent in minutes
+     */
+    public double getAverageTimePerLogin() {
+        if (loginCount == 0) return 0.0;
+        return (double) timeSpentMinutes / loginCount;
+    }
+
+    /**
+     * Gets the average actions per login.
+     * @return average actions per login
+     */
+    public double getAverageActionsPerLogin() {
+        if (loginCount == 0) return 0.0;
+        return (double) actionsPerformed / loginCount;
+    }
 }
 
